@@ -1,0 +1,59 @@
+<head>
+  <title>Random Dungeon Generator - Copyright © 2014 by Sascha Willems (www.saschawillems.de)</title>
+  <script>
+  /*
+  @licstart  The following is the entire license notice for the
+  JavaScript code in this page.
+
+  Copyright (C) 2014 by Sascha Willems (www.saschawillems.de)
+
+  The JavaScript code in this page is free software: you can
+  redistribute it and/or modify it under the terms of the GNU
+  General Public License (GNU GPL) as published by the Free Software
+  Foundation, either version 3 of the License, or (at your option)
+  any later version.  The code is distributed WITHOUT ANY WARRANTY;
+  without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+  @licend  The above is the entire license notice
+  for the JavaScript code in this page.
+  */
+  </script>
+</head>
+<html>
+<body>
+<table border=0>
+  <tr>
+    <td valign=top>
+      <b>Settings</b><br/><br/>
+      Dimension:<input type="number" id="dungeon_dim" min="32" max="256" value="96" size=4><br>
+      Room Frequency:<input type="number" id="dungeon_roomFrequency" min="0" max="75" value="20" size=4><br>
+      BSP split stop:<input type="number" id="dungeon_splitStop" min="10" max="75" value="25" size=4><br>
+      <input type="button" name="generate" value="Generate" onClick="generateDungeon(document.getElementById('dungeon_dim').value)"><br>
+    </td>
+    <td valign=top>
+      <canvas id="canvas"></canvas>
+    </td>
+  </tr>
+</table>
+<script type="text/javascript" src="dungeonGenerator.js"></script>
+<script type="text/javascript" src="bspPartition.js"></script>
+<script type="text/javascript">
+
+  var elem = document.getElementById('canvas');
+  context = elem.getContext('2d');
+
+  generateDungeon(96);
+
+  function generateDungeon(dim) {
+    var generator = new dungeonGenerator();
+    var roomFrequency = document.getElementById('dungeon_roomFrequency').value;
+    var splitStop = document.getElementById('dungeon_splitStop').value;
+    generator.generate(parseInt(dim), parseInt(dim), parseInt(roomFrequency), parseInt(splitStop));
+    elem.width = (parseInt(dim) + 2) * 10;
+    elem.height = (parseInt(dim) + 2) * 10;
+    generator.dungeon.draw();
+  }
+</script>
+</body>
+</html>
